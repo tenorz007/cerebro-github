@@ -36,7 +36,7 @@ const scrapeGithubRepos = (path = 'trending', query = {since: 'today'}) => {
 
             return JSON.stringify(records);
         });
-}
+};
 
 const scrapeGithubUsers = (query = {type: 'Users'}) => {
     let url = `${BASE_URL}/search`;
@@ -52,6 +52,7 @@ const scrapeGithubUsers = (query = {type: 'Users'}) => {
                 let data = $(this);
                 let record = {};
 
+                record.img = data.children().children('.avatar').attr('src');
                 record.username = data.children('.user-list-info').find('a').eq(0).text().trim();
                 record.name = data.children('.user-list-info').text().split('\n')[2].trim();
                 record.url = BASE_URL + '/' + record.username;
@@ -64,7 +65,7 @@ const scrapeGithubUsers = (query = {type: 'Users'}) => {
 
             return JSON.stringify(records);
         });
-}
+};
 
 const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
     let url = `${BASE_URL}/trending/developers/${path}`;
@@ -80,6 +81,7 @@ const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
                 let data = $(this);
                 let record = {};
 
+                record.img = data.children().children('.leaderboard-gravatar').attr('src');
                 record.username = data.children().children('.user-leaderboard-list-name').find('a').eq(0).text().trim().split('\n')[0];
                 record.name = data.children().children('.user-leaderboard-list-name').find('a').children('span.full-name').text().trim();
                 record.url = BASE_URL + '/' + record.username;
@@ -92,10 +94,10 @@ const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
 
             return JSON.stringify(records);
         });
-}
+};
 
 module.exports = {
     scrapeGithubRepos,
     scrapeGithubUsers,
     scrapeGitHubTrendingUsers
-}
+};
