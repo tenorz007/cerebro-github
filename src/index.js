@@ -1,16 +1,20 @@
 'use strict';
+const React = require('react');
+const icon = require('./GitHub-Mark-64px.png');
+const Preview = require('./preview');
 
-const icon = require('GitHub-Mark-64px.png');
-
-const plugin = ({term, display, actions}) => {
+const githubPlugin = ({term, display, actions}) => {
   display({
-    title: 'It works!',
+    id: 'github',
     icon,
-    subtitle: `You entered ${term}`
+    title: `Search github for ${term}`,
+    subtitle: `You entered ${term}`,
+    getPreview: () => <Preview term={term} />
   })
 };
 
 module.exports = {
-  fn: plugin,
+  fn: githubPlugin,
+  name: 'Search on Github',
   icon
-}
+};
