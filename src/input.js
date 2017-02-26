@@ -86,7 +86,8 @@ function parseTrending(query, input) {
 
 function parseTrendingUsers(query, input) {
     input = getPath(query, input);
-    input.type = 'trending-users';
+    input.type = 'trendingUsers';
+    input.path = '';
 
     return input;
 }
