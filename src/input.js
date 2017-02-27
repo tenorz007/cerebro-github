@@ -1,5 +1,6 @@
 const operatorMapper = {
     'written in ': 'language:',
+    'writing ': 'language:',
     'in ': 'location:',
     'with ': ':',
     'having ': ':',
@@ -12,11 +13,10 @@ const operatorMapper = {
     'this week': 'weekly',
     'this month': 'monthly',
     'between ': '',
-    'in': '',
     'using': '',
     ' and ': '..'
 };
-const operands = ['stars', 'forks', 'repos', 'followers', 'topics', 'size'];
+const operands = ['stars', 'forks', 'repos', 'followers', 'topics', 'topic', 'size'];
 const periods = ['today', 'weekly', 'monthly'];
 
 const parseInput = (term) => {
@@ -78,8 +78,8 @@ function getPath(query, input) {
 
 function parseTrending(query, input) {
     input = getPath(query, input);
-    input.path = 'trending/' + input.path;
     input.type = 'trending';
+    input.path = 'trending/' + input.path;
 
     return input;
 }
@@ -87,7 +87,7 @@ function parseTrending(query, input) {
 function parseTrendingUsers(query, input) {
     input = getPath(query, input);
     input.type = 'trendingUsers';
-    input.path = '';
+    input.path = input.path;
 
     return input;
 }
@@ -104,6 +104,7 @@ function parseUsers(query, input) {
 
 function parseRepos(query, input) {
     input.type = 'repos';
+    input.path = 'search';
     input.query = {
         type: 'Repositories',
         q: query.join(' ')
@@ -112,6 +113,4 @@ function parseRepos(query, input) {
     return input;
 }
 
-module.exports = {
-    parseInput
-};
+module.exports = parseInput;

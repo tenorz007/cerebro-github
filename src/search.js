@@ -4,7 +4,7 @@ const { memoize } = require('cerebro-tools');
 
 const BASE_API_URL = 'https://api.github.com';
 
-const searchGithub = memoize((input) => {
+const searchGithub = (input) => {
     let records;
 
     if (input.type == 'trending') {
@@ -18,7 +18,7 @@ const searchGithub = memoize((input) => {
     }
 
     return records;
-});
+};
 
 module.exports = {
     searchGithub

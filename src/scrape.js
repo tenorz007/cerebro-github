@@ -18,7 +18,6 @@ const scrapeGithubRepos = (path = 'trending', query = {since: 'today'}) => {
                 let record = {};
 
                 let color = data.children('.mt-2').find('span.repo-language-color');
-                let stars_today = data.children('.mt-2').children('.float-right').text().trim();
                 let updated =  data.children('.mt-2').find('relative-time').text().trim();
 
                 record.name = data.children().children().children().attr('href');
@@ -27,14 +26,14 @@ const scrapeGithubRepos = (path = 'trending', query = {since: 'today'}) => {
                 record.language = data.children('.mt-2').find('span.mr-3').text().trim();
                 record.language_color = color.length ? color.css('background-color') : '';
                 record.stars = data.children('.mt-2').find('a.mr-3').eq(0).text().trim();
-                record.stars_today = stars_today.slice(0, stars_today.indexOf(' '));
+                record.stars_in_period = data.children('.mt-2').children('.float-right').text().trim();
                 record.forks = data.children('.mt-2').find('a.mr-3').eq(1).text().trim();
                 record.updated = updated.length ? 'Updated on ' + updated : '';
 
                 records.push(record);
             })
 
-            return JSON.stringify(records);
+            return records;
         });
 };
 
@@ -63,7 +62,7 @@ const scrapeGithubUsers = (query = {type: 'Users'}) => {
                 records.push(record);
             })
 
-            return JSON.stringify(records);
+            return records;
         });
 };
 
@@ -92,7 +91,7 @@ const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
                 records.push(record);
             })
 
-            return JSON.stringify(records);
+            return records;
         });
 };
 
