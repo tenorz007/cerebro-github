@@ -17,7 +17,13 @@ const searchGithub = (input) => {
         records = scrapeGithubRepos(input.path, input.query)
     }
 
-    return records;
+    return records
+        .then(res => {
+            if (res.length < 1) {
+                throw new Error('Not Found');
+            }
+            return res;
+        });
 };
 
 module.exports = {

@@ -5,6 +5,7 @@ const { searchGithub } = require('./search');
 const Repo = require('./repo');
 const TrendingUser = require('./trending-user');
 const User = require('./user');
+const Error = require('./error');
 require('./style.sass');
 
 class Preview extends React.Component {
