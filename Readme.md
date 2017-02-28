@@ -24,8 +24,8 @@
 
 ###Todo
 
-- [] Add font-awesome
-- [] Show Readme for a selected repo
+- [ ] Add font-awesome
+- [ ] Show Readme for a selected repo
 
 ## Related
 
