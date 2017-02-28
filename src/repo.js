@@ -18,13 +18,13 @@ class Repo extends React.Component {
 
         if (stars) {
             repoStars = <small className="level-item">
-                            <span className="tag link-tag icon is-small"><i className="fa fa-star-o"></i>{stars}</span>
+                            <span className="tag link-tag icon is-small"><i className="fa fa-star-o"></i>{stars} stars</span>
                         </small>
         }
 
         if (forks) {
             repoForks = <small className="level-item">
-                            <span className="tag link-tag icon is-small"><i className="fa fa-code-fork"></i>{forks}</span>
+                            <span className="tag link-tag icon is-small"><i className="fa fa-code-fork"></i>{forks} forks</span>
                         </small>
         }
 
