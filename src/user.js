@@ -48,7 +48,7 @@ class User extends React.Component {
                 </div>
                 <footer className="card-footer">
                     <a className="card-footer-item"></a>
-                    <a className="card-footer-item" href={url}>Open</a>
+                    <a className="card-footer-item" href={url}><i className="fa fa-github"></i>Open</a>
                     <a className="card-footer-item"></a>
                 </footer>
             </div>

@@ -34,8 +34,8 @@ class TrendingUser extends React.Component {
 
                 </div>
                 <footer className="card-footer">
-                    <a className="card-footer-item" href={url}>Open User</a>
-                    <a className="card-footer-item" href={repo_name}>Open Repo</a>
+                    <a className="card-footer-item" href={url}><i className="fa fa-github"></i>Open User</a>
+                    <a className="card-footer-item" href={repo_name}><i className="fa fa-github"></i>Open Repo</a>
                 </footer>
             </div>
         )
