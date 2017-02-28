@@ -5,6 +5,7 @@ const { searchGithub } = require('./search');
 const Repo = require('./repo');
 const TrendingUser = require('./trending-user');
 const User = require('./user');
+require('./style.sass');
 
 class Preview extends React.Component {
     constructor(props) {
@@ -29,8 +30,7 @@ class Preview extends React.Component {
                 [term.type]: res,
                 error: {message: null, type: null}
             }))
-            // .catch(err => this.setState({ error: {type: term.type, message: err}}));
-            .catch(err => console.log(err));
+            .catch(err => this.setState({ error: {type: term.type, message: err}}));
     }
 
     renderTrendingRepos() {
@@ -82,7 +82,7 @@ class Preview extends React.Component {
 
         if (trending.length > 0) {
             return (
-                <div>
+                <div className="preview">
                     { this.renderTrendingRepos() }
                 </div>
             )
@@ -90,7 +90,7 @@ class Preview extends React.Component {
 
         if (trendingUsers.length > 0) {
             return (
-                <div>
+                <div className="preview">
                     { this.renderTrendingUsers() }
                 </div>
             )
@@ -98,14 +98,14 @@ class Preview extends React.Component {
 
         if (users.length > 0) {
             return (
-                <div>
+                <div className="preview">
                     { this.renderUsers() }
                 </div>
             )
         }
 
         return (
-            <div>
+            <div className="preview">
                 { this.renderRepos() }
             </div>
         );
