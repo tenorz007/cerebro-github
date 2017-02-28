@@ -3,14 +3,15 @@ const React = require('react');
 class User extends React.Component {
     render() {
         const { img, username, name, url, bio, location, email } = this.props.user;
+        const imgStyle = {width: '60px', height: '60px'};
 
         let userLocation;
         let userEmail;
 
         if (location) {
             userLocation = <a className="level-item">
-                            <span className="tag link-tag icon is-small"><i className="fa fa-map-maker"></i>{location}</span>
-                        </a>
+                                <span className="tag link-tag icon is-small"><i className="fa fa-map-maker"></i>{location}</span>
+                            </a>
         }
 
         if (email) {
@@ -25,11 +26,11 @@ class User extends React.Component {
                     <div className="media">
                         <div className="media-left">
                             <figure className="image" height="40px" width="40px">
-                                <img src={img} alt="image" />
+                                <img src={img} alt="image" style={imgStyle} />
                             </figure>
                         </div>
                         <div className="media-content">
-                            <p className="title is-4">{name}</p>
+                            <p className="title is-4"><strong>{name}</strong></p>
                             <p className="subtitle is-6">@{username}</p>
                         </div>
                     </div>
