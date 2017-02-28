@@ -1,4 +1,6 @@
 # Cerebro Github
+[![npm](https://img.shields.io/npm/v/cerebro-github.svg)](https://www.npmjs.com/package/cerebro-github)
+[![npm](https://img.shields.io/npm/dt/cerebro-github.svg)](https://www.npmjs.com/package/cerebro-github)
 
 > Cerebro plugin to get information from github
 ![](demo.gif)
