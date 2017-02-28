@@ -1,10 +1,31 @@
 # Cerebro Github
 
 > Cerebro plugin to get information from github
+![](demo.gif)
 
 ## Usage
 
-In progress
+* Trending Search
+    - trending users
+    - trending users {using *language*} {this week}
+    - trending repos
+    - trending repos {using *language*} {this month}
+* Repo/User Search
+    - {user} user in {location} having more than 10 repos with at least 5 followers
+    - {repo} repo written in {language} with at least 3 forks
+    - {repo} repo having between 4 and 6 stars with 2 topics
+
+
+## Features
+
+* Processing of query using natural language
+* Search github for trending repos or users
+* Search github for repo or users based on query
+
+###Todo
+
+- [] Add font-awesome
+- [] Show Readme for a selected repo
 
 ## Related
 
