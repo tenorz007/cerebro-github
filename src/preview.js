@@ -25,8 +25,9 @@ class Preview extends React.Component {
 
     componentDidMount() {
         let term = parseInput(this.props.term);
+        let searchTerm = JSON.stringify(term);
 
-        searchGithub(term)
+        searchGithub(searchTerm)
             .then(res => this.setState({
                 [term.type]: res,
                 error: {message: null, type: null}
