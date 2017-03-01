@@ -3,19 +3,23 @@
 [![npm](https://img.shields.io/npm/dt/cerebro-github.svg)](https://www.npmjs.com/package/cerebro-github)
 
 > Cerebro plugin to get information from github
+
 ![](demo.gif)
 
 ## Usage
 
+Repo and user search can be queried on (forks, stars, followers, repos, topics, location, size) in any order.
+(having, with) are used to declare intent of query fields.
+
 * Trending Search
     - trending users
-    - trending users {using *language*} {this week}
+    - trending users {using language} {this week}
     - trending repos
-    - trending repos {using *language*} {this month}
+    - trending repos {using language} {this month}
 * Repo/User Search
-    - {user} user in {location} having more than 10 repos with at least 5 followers
-    - {repo} repo written in {language} with at least 3 forks
-    - {repo} repo having between 4 and 6 stars with 2 topics
+    - {user-search-term} user in {location} having more than 10 repos with at least 5 followers
+    - {repo-search-term} repo written in {language} with at least 3 forks
+    - {repo-search-term} repo having between 4 and 6 stars with 2 topics
 
 
 ## Features
