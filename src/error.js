@@ -7,7 +7,7 @@ class Error extends React.Component {
 
         return (
             <div>
-                <article className="message is-warning">
+                <article className="message">
                     <div className="message-header">
                         <p>{error[1]}</p>
                     </div>
