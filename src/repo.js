@@ -2,7 +2,7 @@ const React = require('react');
 
 class Repo extends React.Component {
     render() {
-        const { name, url, description, language, language_color, stars, stars_in_period, forks, updated } = this.props.repo;
+        const { name, full_name, html_url, description, language, language_color, stargazers_count, stargazers_period, forks, updated } = this.props.repo;
 
         let repoLanguage;
         let repoStars;
@@ -16,9 +16,9 @@ class Repo extends React.Component {
                             </small>
         }
 
-        if (stars) {
+        if (stargazers_count) {
             repoStars = <small className="level-item">
-                            <span className="tag link-tag icon is-small"><i className="fa fa-star-o"></i>{stars} stars</span>
+                            <span className="tag link-tag icon is-small"><i className="fa fa-star-o"></i>{stargazers_count} stars</span>
                         </small>
         }
 
@@ -28,9 +28,9 @@ class Repo extends React.Component {
                         </small>
         }
 
-        if (stars_in_period) {
+        if (stargazers_period) {
             repoStarsInPeriod = <small className="level-item">
-                                    <span className="tag link-tag icon is-small"><i className="fa fa-star-o"></i>{stars_in_period}</span>
+                                    <span className="tag link-tag icon is-small"><i className="fa fa-star-o"></i>{stargazers_period}</span>
                                 </small>
         }
 
@@ -44,7 +44,7 @@ class Repo extends React.Component {
             <div className="card">
                 <div className="card-content">
                     <div className="media-content">
-                        <p className="title is-5"><i className="fa fa-storage"></i><strong>{name}</strong></p>
+                        <p className="title is-5"><i className="fa fa-storage"></i><strong>{full_name}</strong></p>
                     </div>
                     <div className="content">
                         {description}
@@ -65,7 +65,7 @@ class Repo extends React.Component {
                 </div>
                 <footer className="card-footer">
                     <a className="card-footer-item"></a>
-                    <a className="card-footer-item" href={url}><i className="fa fa-github"></i>Open</a>
+                    <a className="card-footer-item" href={html_url}><i className="fa fa-github"></i>Open</a>
                     <a className="card-footer-item"></a>
                 </footer>
             </div>

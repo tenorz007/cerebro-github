@@ -17,16 +17,18 @@ const scrapeGithubRepos = (path = 'trending', query = {since: 'today'}) => {
                 let data = $(this);
                 let record = {};
 
+                let name = data.children().children().children().attr('href');
                 let color = data.children('.mt-2').find('span.repo-language-color');
                 let updated =  data.children('.mt-2').find('relative-time').text().trim();
 
-                record.name = data.children().children().children().attr('href');
-                record.url = BASE_URL + record.name;
+                record.name = name.split('/')[2];
+                record.full_name = name.slice(1);
+                record.html_url = BASE_URL + name;
                 record.description = data.children().find('p').text().trim();
                 record.language = data.children('.mt-2').find('span.mr-3').text().trim();
                 record.language_color = color.length ? color.css('background-color') : '';
-                record.stars = data.children('.mt-2').find('a.mr-3').eq(0).text().trim();
-                record.stars_in_period = data.children('.mt-2').children('.float-right').text().trim();
+                record.stargazers_count = data.children('.mt-2').find('a.mr-3').eq(0).text().trim();
+                record.stargazers_period = data.children('.mt-2').children('.float-right').text().trim();
                 record.forks = data.children('.mt-2').find('a.mr-3').eq(1).text().trim();
                 record.updated = updated.length ? 'Updated on ' + updated : '';
 
@@ -51,12 +53,12 @@ const scrapeGithubUsers = (query = {type: 'Users'}) => {
                 let data = $(this);
                 let record = {};
 
-                record.img = data.children().children('.avatar').attr('src');
-                record.username = data.children('.user-list-info').find('a').eq(0).text().trim();
+                record.login = data.children('.user-list-info').find('a').eq(0).text().trim();
+                record.avatar_url = data.children().children('.avatar').attr('src');
+                record.html_url = BASE_URL + '/' + record.login;
                 record.name = data.children('.user-list-info').text().split('\n')[2].trim();
-                record.url = BASE_URL + '/' + record.username;
-                record.bio = data.children().children('.user-list-bio').text().trim();
                 record.location = data.children().children('.user-list-meta').find('li').eq(0).text().trim();
+                record.bio = data.children().children('.user-list-bio').text().trim();
                 record.email = data.children().children('.user-list-meta').find('li').eq(1).text().trim();
 
                 records.push(record);
@@ -80,13 +82,19 @@ const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
                 let data = $(this);
                 let record = {};
 
-                record.img = data.children().children('.leaderboard-gravatar').attr('src');
-                record.username = data.children().children('.user-leaderboard-list-name').find('a').eq(0).text().trim().split('\n')[0];
-                record.name = data.children().children('.user-leaderboard-list-name').find('a').children('span.full-name').text().trim();
-                record.url = BASE_URL + '/' + record.username;
-                record.repo_name = BASE_URL + data.children().children('.repo-snipit').attr('href');
-                record.repo_slug = data.children().children('.repo-snipit').children('.repo-snipit-name').text().trim();
-                record.repo_description = data.children().children('.repo-snipit').children('.repo-snipit-description').text().trim();
+                let name = data.children().children('.user-leaderboard-list-name').find('a').children('span.full-name').text().trim();
+                let repo = data.children().children('.repo-snipit').attr('href');
+
+                record.login = data.children().children('.user-leaderboard-list-name').find('a').eq(0).text().trim().split('\n')[0];
+                record.avatar_url = data.children().children('.leaderboard-gravatar').attr('src');
+                record.html_url = BASE_URL + '/' + record.login;
+                record.name = name.slice(1, name.length - 1);
+                record.repo = {};
+                record.repo.name = repo.split('')[2];
+                record.repo.full_name = repo.slice(1);
+                record.repo.html_url = BASE_URL + repo;
+                record.repo.slug = data.children().children('.repo-snipit').children('.repo-snipit-name').text().trim();
+                record.repo.description = data.children().children('.repo-snipit').children('.repo-snipit-description').text().trim();
 
                 records.push(record);
             })

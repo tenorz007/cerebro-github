@@ -2,7 +2,7 @@ const React = require('react');
 
 class User extends React.Component {
     render() {
-        const { img, username, name, url, bio, location, email } = this.props.user;
+        const { avatar_url, login, name, html_url, bio, location, email } = this.props.user;
         const imgStyle = {width: '60px', height: '60px'};
 
         let userLocation;
@@ -26,12 +26,12 @@ class User extends React.Component {
                     <div className="media">
                         <div className="media-left">
                             <figure className="image" height="40px" width="40px">
-                                <img src={img} alt="image" style={imgStyle} />
+                                <img src={avatar_url} alt="image" style={imgStyle} />
                             </figure>
                         </div>
                         <div className="media-content">
                             <p className="title is-4"><strong>{name}</strong></p>
-                            <p className="subtitle is-6">@{username}</p>
+                            <p className="subtitle is-6">@{login}</p>
                         </div>
                     </div>
 
@@ -48,7 +48,7 @@ class User extends React.Component {
                 </div>
                 <footer className="card-footer">
                     <a className="card-footer-item"></a>
-                    <a className="card-footer-item" href={url}><i className="fa fa-github"></i>Open</a>
+                    <a className="card-footer-item" href={html_url}><i className="fa fa-github"></i>Open</a>
                     <a className="card-footer-item"></a>
                 </footer>
             </div>

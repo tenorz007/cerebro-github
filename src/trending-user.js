@@ -2,7 +2,7 @@ const React = require('react');
 
 class TrendingUser extends React.Component {
     render() {
-        const { img, username, name, url, repo_name, repo_slug, repo_description } = this.props.user;
+        const { avatar_url, login, name, html_url, repo } = this.props.user;
         const imgStyle = {width: '60px', height: '60px'};
 
         return (
@@ -11,22 +11,22 @@ class TrendingUser extends React.Component {
                     <div className="media">
                         <div className="media-left">
                             <figure className="image">
-                                <img src={img} alt="image" style={imgStyle} />
+                                <img src={avatar_url} alt="image" style={imgStyle} />
                             </figure>
                         </div>
                         <div className="media-content">
                             <p className="title is-4"><strong>{name}</strong></p>
-                            <p className="subtitle is-6">@{username}</p>
+                            <p className="subtitle is-6">@{login}</p>
                         </div>
                     </div>
 
                     <div className="content">
-                        {repo_description}
+                        {repo.description}
                         <hr />
                         <nav className="level">
                             <div className="level-left">
                                 <a className="level-item">
-                                    <span className="tag link-tag icon is-small"><i className="fa fa-storage"></i>{repo_slug}</span>
+                                    <span className="tag link-tag icon is-small"><i className="fa fa-storage"></i>{repo.slug}</span>
                                 </a>
                             </div>
                         </nav>
@@ -34,8 +34,8 @@ class TrendingUser extends React.Component {
 
                 </div>
                 <footer className="card-footer">
-                    <a className="card-footer-item" href={url}><i className="fa fa-github"></i>Open User</a>
-                    <a className="card-footer-item" href={repo_name}><i className="fa fa-github"></i>Open Repo</a>
+                    <a className="card-footer-item" href={html_url}><i className="fa fa-github"></i>Open User</a>
+                    <a className="card-footer-item" href={repo.html_url}><i className="fa fa-github"></i>Open Repo</a>
                 </footer>
             </div>
         )
