@@ -5,7 +5,7 @@ const { searchGithub } = require('./search');
 const Repo = require('./repo');
 const TrendingUser = require('./trending-user');
 const User = require('./user');
-const Error = require('./error');
+const SearchError = require('./search-error');
 require('./style.sass');
 
 class Preview extends React.Component {
@@ -73,7 +73,7 @@ class Preview extends React.Component {
 
         if (error.message) {
             return (
-                <Error message={error.message} type={error.type} />
+                <SearchError message={error.message} type={error.type} />
             );
         }
 

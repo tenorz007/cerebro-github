@@ -1,6 +1,6 @@
 const React = require('react');
 
-class Error extends React.Component {
+class SearchError extends React.Component {
     render() {
         const { message, type } = this.props;
         let error = format(message, type);
@@ -20,7 +20,7 @@ class Error extends React.Component {
     }
 }
 
-Error.propTypes = {
+SearchError.propTypes = {
     message: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.object
@@ -31,7 +31,7 @@ Error.propTypes = {
 };
 
 function format(message, type) {
-    let errorMessage = 'No results found, please try agaim!';
+    let errorMessage = message.toString();
     let errorType;
 
     if (type === 'trending') {
@@ -44,10 +44,9 @@ function format(message, type) {
         errorType = 'User Search Error';
     } else {
         errorType = 'Unknown Error';
-        errorMessage = message.toString();
     }
 
     return [errorMessage, errorType];
 }
 
-module.exports = Error;
+module.exports = SearchError;
