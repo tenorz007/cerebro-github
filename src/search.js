@@ -17,14 +17,14 @@ const searchGithub = memoize(input => {
     let records;
     input = JSON.parse(input);
 
-    if (input.type == 'trending') {
+    if (input.group === 'repos' && input.type === 'trending') {
         records = scrapeGithubRepos(input.path, input.query);
-    } else if (input.type == 'trendingUsers') {
+    } else if (input.group === 'users' && input.type === 'trending') {
         records = scrapeGitHubTrendingUsers(input.path, input.query);
-    } else if (input.type == 'users') {
+    } else if (input.group === 'users' && input.type === 'users') {
         records = scrapeGithubUsers(input.query);
     } else {
-        records = scrapeGithubRepos(input.path, input.query)
+        records = scrapeGithubRepos(input.path, input.query);
     }
 
     return records
@@ -37,6 +37,6 @@ const searchGithub = memoize(input => {
 });
 
 module.exports = {
+    searchApi,
     searchGithub
 };
-    searchApi,

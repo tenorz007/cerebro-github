@@ -20,7 +20,7 @@ const operands = ['stars', 'forks', 'repos', 'followers', 'topics', 'topic', 'si
 const periods = ['today', 'weekly', 'monthly'];
 
 const parseInput = (term) => {
-    let input = {type: '', path: '', query: {}};
+    let input = {group: '', type: '', path: '', query: {}};
     let query;
 
     term = term.toLowerCase();
@@ -78,6 +78,7 @@ function getPath(query, input) {
 
 function parseTrending(query, input) {
     input = getPath(query, input);
+    input.group = 'repos',
     input.type = 'trending';
     input.path = 'trending/' + input.path;
 
@@ -86,13 +87,15 @@ function parseTrending(query, input) {
 
 function parseTrendingUsers(query, input) {
     input = getPath(query, input);
-    input.type = 'trendingUsers';
+    input.group = 'users',
+    input.type = 'trending';
     input.path = input.path;
 
     return input;
 }
 
 function parseUsers(query, input) {
+    input.group = 'users',
     input.type = 'users';
     input.query = {
         type: 'Users',
@@ -103,6 +106,7 @@ function parseUsers(query, input) {
 }
 
 function parseRepos(query, input) {
+    input.group = 'repos',
     input.type = 'repos';
     input.path = 'search';
     input.query = {
