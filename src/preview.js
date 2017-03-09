@@ -1,9 +1,8 @@
 const React = require('react');
 const parseInput = require('./input');
 const Spinner = require('react-spinkit');
-const { searchGithub } = require('./search');
+const { searchApi, searchGithub } = require('./search');
 const Repo = require('./repo');
-const TrendingUser = require('./trending-user');
 const User = require('./user');
 const SearchError = require('./search-error');
 require('./style.sass');
@@ -12,11 +11,10 @@ class Preview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            trending: [],
-            trendingUsers: [],
-            repos: [],
-            users: [],
+            users: null,
+            repos: null,
             error: {
+                group: null,
                 type: null,
                 message: null
             }
@@ -29,86 +27,91 @@ class Preview extends React.Component {
 
         searchGithub(searchTerm)
             .then(res => this.setState({
-                [term.type]: res,
-                error: {message: null, type: null}
+                [term.group]: { [term.type]: res },
+                error: { group: null, type: null, message: null }
             }))
-            .catch(err => this.setState({ error: {type: term.type, message: err}}));
+            .catch(err => this.setState({ error: { group: term.group, type: term.type, message: err }}));
     }
 
-    renderTrendingRepos() {
-        const { trending } = this.state;
+    getUserRepos(user, url) {
+        let input = {
+            path: `search/repositories`,
+            query: `user:${url}&sort=stars&order=desc&per_page=9`
+        };
+        input = JSON.stringify(input);
 
-        return trending.map((repo, idx) => (
-            <Repo key={idx} repo={repo}  />
-        ))
+        searchApi(input)
+            .then(res => this.setState({
+                repos: { repos: res.body.items },
+                users: { user: user }
+            }))
+            .catch(err => this.setState({ error: { group: 'repos', type: 'repos', message: err }}));
     }
 
-    renderTrendingUsers() {
-        const { trendingUsers } = this.state;
+    getReadMe(repo, url) {
+        let input = { path: `repos/${url}/readme`, query: {} };
+        input = JSON.stringify(input)
 
-        return trendingUsers.map((user, idx) => (
-            <TrendingUser key={idx} user={user}  />
-        ))
+        searchApi(input)
+            .then(res => this.setState({
+                repos: { readme: res.body,  repo: repo }
+            }))
+            .catch(err => this.setState({ error: { group: 'repos', type: 'readme', message: err }}));
     }
 
-    renderRepos() {
-        const { repos } = this.state;
-
-        return repos.map((repo, idx) => (
-            <Repo key={idx} repo={repo}  />
-        ))
+    goBack(stateObject, type) {
+        const currentState = this.state[stateObject][type];
+        this.setState({ stateObject : { type: currentState }});
     }
 
-    renderUsers() {
-        const { users } = this.state;
+    renderUsers(users) {
+        let userRepos = this.state.repos ? this.state.repos : null;
+        userRepos = userRepos ? userRepos.repos : null;
 
         return users.map((user, idx) => (
-            <User key={idx} user={user}  />
-        ))
+            <User key={idx} user={user} repos={userRepos} onClick={() => this.getUserRepos(user, user.login)} />
+        ));
     }
 
+    renderRepos(repos) {
+        return repos.map((repo, idx) => (
+            <Repo key={idx} repo={repo} onClick={() => this.getReadMe(repo, repo.full_name)} />
+        ));
+    }
 
     render() {
-        const { trending, trendingUsers, repos, users, error } = this.state;
-
+        const { users, repos, error } = this.state;
         if (error.message) {
-            return (
-                <SearchError message={error.message} type={error.type} />
-            );
+            return <SearchError group={error.group} type={error.type} message={error.message} />
         }
 
-        if (! trending.length && ! trendingUsers.length && ! users.length && ! repos.length) {
+        if (! repos && ! users) {
             return <Spinner spinnerName='wave' noFadeIn />
         }
 
-
-        if (trending.length > 0) {
+        if (users) {
+            let userList = users.trending || users.users || null;
+            let user = users.user || null;
+            let userRepos = repos ? repos : null;
+            userRepos = userRepos ? userRepos.repos : null;
             return (
                 <div className="preview">
-                    { this.renderTrendingRepos() }
+                    {user
+                        ? <User user={user} onClick={() => this.getUserRepos(user, user.login)} repos={userRepos} goBack={() => this.goBack('users', 'users')}/>
+                        : this.renderUsers(userList) }
                 </div>
-            )
+            );
         }
 
-        if (trendingUsers.length > 0) {
-            return (
-                <div className="preview">
-                    { this.renderTrendingUsers() }
-                </div>
-            )
-        }
-
-        if (users.length > 0) {
-            return (
-                <div className="preview">
-                    { this.renderUsers() }
-                </div>
-            )
-        }
+        let repoList = repos.trending || repos.repos || null;
+        let repo = repos.repo || null;
+        let readme = repos.readme || null;
 
         return (
             <div className="preview">
-                { this.renderRepos() }
+                {repo
+                    ? <Repo repo={repo} readme={readme} goBack={() => this.goBack('repos', 'repos')} />
+                    : this.renderRepos(repoList) }
             </div>
         );
     }
