@@ -1,11 +1,11 @@
 const React = require('react');
+const Repo = require('./repo');
 
 class User extends React.Component {
     renderRepos() {
-        const { repos, openRepos } = this.props;
-
+        const { repos } = this.props;
         return repos.map((repo, idx) => (
-            <Repo key={idx} repo={repo} onClick={openRepo} />
+            <Repo key={idx} repo={repo} />
         ));
     }
 

@@ -97,7 +97,7 @@ class Preview extends React.Component {
             return (
                 <div className="preview">
                     {user
-                        ? <User user={user} onClick={() => this.getUserRepos(user, user.login)} repos={userRepos} goBack={() => this.goBack('users', 'users')}/>
+                        ? <User user={user} repos={userRepos} onClick={() => this.getUserRepos(user, user.login)} goBack={() => this.goBack('users', 'users')}/>
                         : this.renderUsers(userList) }
                 </div>
             );
