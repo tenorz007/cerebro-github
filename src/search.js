@@ -4,6 +4,15 @@ const { memoize } = require('cerebro-tools');
 
 const BASE_API_URL = 'https://api.github.com';
 
+const searchApi = memoize(input => {
+    input = JSON.parse(input);
+    let url = `${BASE_API_URL}/${input.path}`;
+
+    return request
+        .get(url)
+        .query(input.query);
+});
+
 const searchGithub = memoize(input => {
     let records;
     input = JSON.parse(input);
@@ -30,4 +39,4 @@ const searchGithub = memoize(input => {
 module.exports = {
     searchGithub
 };
-
+    searchApi,
