@@ -1,31 +1,26 @@
 const React = require('react');
 
 class User extends React.Component {
-    render() {
-        const { avatar_url, login, name, html_url, bio, location, email } = this.props.user;
+    renderRepos() {
+        const { repos, openRepos } = this.props;
+
+        return repos.map((repo, idx) => (
+            <Repo key={idx} repo={repo} onClick={openRepo} />
+        ));
+    }
+
+    renderBody() {
+        const { avatar_url, login, name, html_url, bio, location, email, repo } = this.props.user;
+        const { repos, onClick } = this.props;
         const imgStyle = {width: '60px', height: '60px'};
-
-        let userLocation;
-        let userEmail;
-
-        if (location) {
-            userLocation = <a className="level-item">
-                                <span className="tag link-tag icon is-small"><i className="fa fa-map-maker"></i>{location}</span>
-                            </a>
-        }
-
-        if (email) {
-            userEmail = <a className="level-item">
-                            <span className="tag link-tag icon is-small"><i className="fa fa-envelope-o"></i>{email}</span>
-                        </a>
-        }
 
         return (
             <div className="card">
                 <div className="card-content">
+
                     <div className="media">
                         <div className="media-left">
-                            <figure className="image" height="40px" width="40px">
+                            <figure className="image">
                                 <img src={avatar_url} alt="image" style={imgStyle} />
                             </figure>
                         </div>
@@ -36,23 +31,51 @@ class User extends React.Component {
                     </div>
 
                     <div className="content">
-                        {bio}
+                        {repo
+                            ? (repo.description)
+                            : (bio)
+                        }
                         <hr />
+
                         <nav className="level">
                             <div className="level-left">
-                                {userLocation}
-                                {userEmail}
+                                {repo ? (
+                                    <a className="level-item">
+                                        <span className="tag link-tag icon is-small"><i className="fa fa-storage"></i>{repo.slug}</span>
+                                    </a>
+                                ) : ('')}
+                                {location ? (
+                                    <a className="level-item">
+                                        <span className="tag link-tag icon is-small"><i className="fa fa-map-maker"></i>{location}</span>
+                                    </a>
+                                ) : ('')}
+                                {email ? (
+                                    <a className="level-item">
+                                        <span className="tag link-tag icon is-small"><i className="fa fa-envelope-o"></i>{email}</span>
+                                    </a>
+                                ) : ('')}
                             </div>
                         </nav>
                     </div>
+
+                    <footer className="card-footer">
+                        <a className="card-footer-item" href={html_url}><i className="fa fa-github"></i>Open User</a>
+                        {repo ? (
+                            <a className="card-footer-item" href={repo.html_url}><i className="fa fa-github"></i>Open Repo</a>
+                        ) : ('')}
+                        {repos ? ('') : (
+                            <a className="card-footer-item" onClick={onClick}><i className="fa fa-archive"></i>Open User Repos</a>
+                        )}
+                    </footer>
+
+                    {repos ? (this.renderRepos()) : ('')}
                 </div>
-                <footer className="card-footer">
-                    <a className="card-footer-item"></a>
-                    <a className="card-footer-item" href={html_url}><i className="fa fa-github"></i>Open</a>
-                    <a className="card-footer-item"></a>
-                </footer>
             </div>
-        )
+        );
+    }
+
+    render() {
+        return this.renderBody();
     }
 }
 
