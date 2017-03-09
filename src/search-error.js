@@ -3,7 +3,7 @@ const React = require('react');
 class SearchError extends React.Component {
     render() {
         const { group, type, message } = this.props;
-        let error = format(message, type);
+        let error = format(group, type, message);
 
         return (
             <div>
