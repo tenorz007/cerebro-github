@@ -9,7 +9,6 @@ const githubPlugin = ({term, display, actions}) => {
     icon,
     order: 11,
     title: `Search github for ${term}`,
-    subtitle: `You entered ${term}`,
     getPreview: () => <Preview term={term} />
   })
 };

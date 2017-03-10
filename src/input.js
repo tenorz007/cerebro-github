@@ -1,7 +1,7 @@
 const operatorMapper = {
     'written in ': 'language:',
     'writing ': 'language:',
-    'in ': 'location:',
+    ' in ': ' location:',
     'with ': ':',
     'having ': ':',
     'more than ': '>',
