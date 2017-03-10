@@ -9,7 +9,6 @@ class Repo extends React.Component {
     }
 
     renderReadMe() {
-        console.log("rendering read me in repo.js");
         return <ReadMe readme={this.props.repo.full_name} />
     }
 
