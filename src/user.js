@@ -15,8 +15,8 @@ class User extends React.Component {
         const imgStyle = {width: '60px', height: '60px'};
 
         return (
-            <div className="card">
-                <div className="card-content">
+            <div className="content" tabIndex="0">
+                <div className="box pointer" tabIndex="0">
 
                     <div className="media">
                         <div className="media-left">
@@ -68,8 +68,16 @@ class User extends React.Component {
                         )}
                     </footer>
 
-                    {repos ? (this.renderRepos()) : ('')}
                 </div>
+                {repos
+                    ? (
+                        <nav className="panel">
+                            <p className="panel-heading">Repositories</p>
+                            {this.renderRepos()}
+                        </nav>
+                        )
+                    : ('')
+                }
             </div>
         );
     }

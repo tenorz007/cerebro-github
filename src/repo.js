@@ -23,8 +23,8 @@ class Repo extends React.Component {
         } = repo;
 
         return (
-            <div className="card" tabIndex='1'>
-                <div className="card-content">
+            <div className="content" tabIndex="0">
+                <div className="box pointer" tabIndex="0">
 
                     <div className="media-content">
                         <p className="title is-5"><i className="fa fa-storage"></i><strong>{full_name}</strong></p>
@@ -73,8 +73,18 @@ class Repo extends React.Component {
                         }
                         <a className="card-footer-item" href={html_url}><i className="fa fa-github"></i>Open</a>
                     </footer>
-                    {readme ? (this.renderReadMe()) : ('')}
                 </div>
+                {readme
+                    ? (
+                        <nav className="panel">
+                            <p className="panel-heading">ReadMe</p>
+                            <div className="card">
+                                {this.renderReadMe()}
+                            </div>
+                        </nav>
+                        )
+                    : ('')
+                }
             </div>
         );
     }
