@@ -11,7 +11,7 @@ class User extends React.Component {
 
     renderBody() {
         const { avatar_url, login, name, html_url, bio, location, email, repo } = this.props.user;
-        const { repos, onClick } = this.props;
+        const { repos, onClick, goBack } = this.props;
         const imgStyle = {width: '60px', height: '60px'};
 
         return (
@@ -35,12 +35,12 @@ class User extends React.Component {
                             ? (repo.description)
                             : (bio)
                         }
-                        <hr />
+                        <br />
 
                         <nav className="level">
                             <div className="level-left">
                                 {repo ? (
-                                    <a className="level-item">
+                                    <a className="level-item" href={repo.html_url}>
                                         <span className="tag link-tag icon is-small"><i className="fa fa-storage"></i>{repo.slug}</span>
                                     </a>
                                 ) : ('')}
@@ -60,12 +60,10 @@ class User extends React.Component {
 
                     <footer className="card-footer">
                         <a className="card-footer-item" href={html_url}><i className="fa fa-github"></i>Open User</a>
-                        {repo ? (
-                            <a className="card-footer-item" href={repo.html_url}><i className="fa fa-github"></i>Open Repo</a>
-                        ) : ('')}
-                        {repos ? ('') : (
-                            <a className="card-footer-item" onClick={onClick}><i className="fa fa-archive"></i>Open User Repos</a>
-                        )}
+                        {repos
+                            ? ( <a className="card-footer-item" onClick={goBack}><i className="fa fa-archive"></i>Close Repos</a> )
+                            : ( <a className="card-footer-item" onClick={onClick}><i className="fa fa-archive"></i>Open User Repos</a> )
+                        }
                     </footer>
 
                 </div>
