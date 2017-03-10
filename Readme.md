@@ -9,7 +9,7 @@
 ## Usage
 
 Repo and user search can be queried on (forks, stars, followers, repos, topics, location, size) in any order.
-(having, with) are used to declare intent of query fields.
+(having, with) are used to declare intent of query.
 
 * Trending Search
     - trending users
@@ -27,16 +27,20 @@ Repo and user search can be queried on (forks, stars, followers, repos, topics, 
 * Processing of query using natural language
 * Search github for trending repos or users
 * Search github for repo or users based on query
+* View user top repositories by most recently updated
+* View repo readme
 
 ###Todo
 
 - [ ] Add font-awesome
-- [ ] Show Readme for a selected repo
+- [x] Show Readme for a selected repo
+- [x] Show repos for a selected user
 
 ## Related
 
 * [Cerebro](http://github.com/KELiON/cerebro) – main repo for Cerebro app;
 * [cerebro tools](http://github.com/KELiON/cerebro-tools) – package with tools to simplify package creation;
+* [cerebro stackoverflow](http://github.com/BrainMaestro/cerebro-stackoverflow) - used as a guide for structring of the plugin
 
 ## License
 
