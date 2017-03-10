@@ -31,7 +31,7 @@ SearchError.propTypes = {
 };
 
 function format(group, type, message) {
-    let errorMessage = message.toString();
+    let errorMessage = message.message || message.toString();
     let errorType;
 
     if (group === 'users' && type === 'trending') {
