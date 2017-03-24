@@ -1,5 +1,5 @@
 const request = require('superagent');
-const { scrapeGithubRepos, scrapeGithubUsers, scrapeGitHubTrendingUsers } = require('./scrape');
+const { scrapeGitHubTrendingUsers, scrapeGitHubTrendingRepos, scrapeGithubUsers, scrapeGithubRepos } = require('./scrape');
 const { memoize } = require('cerebro-tools');
 
 const BASE_API_URL = 'https://api.github.com';
@@ -17,10 +17,10 @@ const searchGithub = memoize(input => {
     let records;
     input = JSON.parse(input);
 
-    if (input.group === 'repos' && input.type === 'trending') {
-        records = scrapeGithubRepos(input.path, input.query);
-    } else if (input.group === 'users' && input.type === 'trending') {
+    if (input.group === 'users' && input.type === 'trending') {
         records = scrapeGitHubTrendingUsers(input.path, input.query);
+    } else if (input.group === 'repos' && input.type === 'trending') {
+        records = scrapeGitHubTrendingRepos(input.path, input.query);
     } else if (input.group === 'users' && input.type === 'users') {
         records = scrapeGithubUsers(input.query);
     } else {
