@@ -3,7 +3,42 @@ const cheerio = require('cheerio');
 
 const BASE_URL = 'https://github.com';
 
-const scrapeGithubRepos = (path = 'trending', query = {since: 'today'}) => {
+const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
+    let url = `${BASE_URL}/trending/developers/${path}`;
+
+    return request
+        .get(url)
+        .query(query)
+        .then(res => {
+            let $ = cheerio.load(res.text);
+            let records = [];
+
+            $('li.user-leaderboard-list-item').each(function() {
+                let data = $(this);
+                let record = {};
+
+                let name = data.children().children('.user-leaderboard-list-name').find('a').children('span.full-name').text().trim();
+                let repo = data.children().children('.repo-snipit').attr('href');
+
+                record.login = data.children().children('.user-leaderboard-list-name').find('a').eq(0).text().trim().split('\n')[0];
+                record.avatar_url = data.children().children('.leaderboard-gravatar').attr('src');
+                record.html_url = BASE_URL + '/' + record.login;
+                record.name = name.slice(1, name.length - 1);
+                record.repo = {};
+                record.repo.name = repo.split('')[2];
+                record.repo.full_name = repo.slice(1);
+                record.repo.html_url = BASE_URL + repo;
+                record.repo.slug = data.children().children('.repo-snipit').children('.repo-snipit-name').text().trim();
+                record.repo.description = data.children().children('.repo-snipit').children('.repo-snipit-description').text().trim();
+
+                records.push(record);
+            })
+
+            return records;
+        });
+};
+
+const scrapeGitHubTrendingRepos = (path = 'trending', query = {since: 'today'}) => {
     let url = `${BASE_URL}/${path}`;
 
     return request
@@ -53,13 +88,13 @@ const scrapeGithubUsers = (query = {type: 'Users'}) => {
                 let data = $(this);
                 let record = {};
 
-                record.login = data.children('.user-list-info').find('a').eq(0).text().trim();
-                record.avatar_url = data.children().children('.avatar').attr('src');
+                record.login = data.find('.user-list-info').find('a').eq(0).text().trim();
+                record.avatar_url = data.find('.avatar').attr('src');
                 record.html_url = BASE_URL + '/' + record.login;
-                record.name = data.children('.user-list-info').text().split('\n')[2].trim();
-                record.location = data.children().children('.user-list-meta').find('li').eq(0).text().trim();
-                record.bio = data.children().children('.user-list-bio').text().trim();
-                record.email = data.children().children('.user-list-meta').find('li').eq(1).text().trim();
+                record.name = data.find('.user-list-info').find('span.ml-1').text().trim();
+                record.location = data.find('.user-list-meta').find('li').eq(0).text().trim();
+                record.bio = data.find('.user-list-info').find('p.mt-2').text().trim();
+                record.email = data.find('.user-list-meta').find('li').eq(1).text().trim();
 
                 records.push(record);
             })
@@ -68,8 +103,8 @@ const scrapeGithubUsers = (query = {type: 'Users'}) => {
         });
 };
 
-const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
-    let url = `${BASE_URL}/trending/developers/${path}`;
+const scrapeGithubRepos = (path = 'search', query = {type: 'Repositories'}) => {
+    let url = `${BASE_URL}/${path}`;
 
     return request
         .get(url)
@@ -78,23 +113,22 @@ const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
             let $ = cheerio.load(res.text);
             let records = [];
 
-            $('li.user-leaderboard-list-item').each(function() {
+            $('div.repo-list-item').each(function() {
                 let data = $(this);
                 let record = {};
 
-                let name = data.children().children('.user-leaderboard-list-name').find('a').children('span.full-name').text().trim();
-                let repo = data.children().children('.repo-snipit').attr('href');
+                let name = data.children().children().children().attr('href');
+                let color = data.children().find('span.repo-language-color');
+                let updated =  data.children().find('relative-time').text().trim();
 
-                record.login = data.children().children('.user-leaderboard-list-name').find('a').eq(0).text().trim().split('\n')[0];
-                record.avatar_url = data.children().children('.leaderboard-gravatar').attr('src');
-                record.html_url = BASE_URL + '/' + record.login;
-                record.name = name.slice(1, name.length - 1);
-                record.repo = {};
-                record.repo.name = repo.split('')[2];
-                record.repo.full_name = repo.slice(1);
-                record.repo.html_url = BASE_URL + repo;
-                record.repo.slug = data.children().children('.repo-snipit').children('.repo-snipit-name').text().trim();
-                record.repo.description = data.children().children('.repo-snipit').children('.repo-snipit-description').text().trim();
+                record.name = name.split('/')[2];
+                record.full_name = name.slice(1);
+                record.html_url = BASE_URL + name;
+                record.description = data.children().find('p.col-9').text().trim();
+                record.language = color.parent().text().trim();
+                record.language_color = color.length ? color.css('background-color') : '';
+                record.stargazers_count = data.children().find('a.muted-link').text().trim();
+                record.updated = updated.length ? 'Updated on ' + updated : '';
 
                 records.push(record);
             })
@@ -104,7 +138,8 @@ const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
 };
 
 module.exports = {
-    scrapeGithubRepos,
+    scrapeGitHubTrendingUsers,
+    scrapeGitHubTrendingRepos,
     scrapeGithubUsers,
-    scrapeGitHubTrendingUsers
+    scrapeGithubRepos
 };
