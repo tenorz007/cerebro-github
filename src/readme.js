@@ -1,12 +1,20 @@
 const React = require('react');
 const ReactMarkdown = require('react-markdown');
 const { searchApi } = require('./search');
+const SearchError = require('./search-error');
 const Spinner = require('react-spinkit');
 
 class ReadMe extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { readme: null }
+        this.state = {
+            readme: null,
+            error: {
+                group: null,
+                type: null,
+                message: null
+            }
+        }
     }
 
     componentDidMount() {
@@ -14,7 +22,11 @@ class ReadMe extends React.Component {
         input = JSON.stringify(input)
 
         searchApi(input)
-            .then(res => this.setState({ readme: res.body }));
+            .then(res => this.setState({
+                readme: res.body,
+                error: { group: null, type: null, message: null }
+            }))
+            .catch(err => this.setState({ error: { group: 'repos', type: 'repos', message: 'No readme found' }}));
     }
 
     renderBody() {
@@ -31,7 +43,13 @@ class ReadMe extends React.Component {
     }
 
     render() {
-        if (! this.state.readme) {
+        const { readme, error } = this.state;
+
+        if (error.message) {
+            return <SearchError group={error.group} type={error.type} message={error.message} />
+        }
+
+        if (! readme) {
             return <Spinner spinnerName='wave' noFadeIn />
         }
 
