@@ -30,7 +30,7 @@ Repo and user search can be queried on (forks, stars, followers, repos, topics, 
 * View user top repositories by most recently updated
 * View repo readme
 
-###Todo
+### Todo
 
 - [ ] Add font-awesome
 - [x] Show Readme for a selected repo
