@@ -13,23 +13,24 @@ const scrapeGitHubTrendingUsers = (path = '', query = {since: 'today'}) => {
             let $ = cheerio.load(res.text);
             let records = [];
 
-            $('li.user-leaderboard-list-item').each(function() {
+            $('li.d-sm-flex').each(function() {
                 let data = $(this);
                 let record = {};
 
-                let name = data.children().children('.user-leaderboard-list-name').find('a').children('span.full-name').text().trim();
-                let repo = data.children().children('.repo-snipit').attr('href');
+                let login = data.children().children().children().children('a').attr('href');
+                let name = data.children().children().children().children().children('span.text-bold').text().trim();
+                let repo = data.children().children().children('.repo-snipit').children('.repo-snipit-name').text().trim();
 
-                record.login = data.children().children('.user-leaderboard-list-name').find('a').eq(0).text().trim().split('\n')[0];
-                record.avatar_url = data.children().children('.leaderboard-gravatar').attr('src');
-                record.html_url = BASE_URL + '/' + record.login;
+                record.login = login.slice(1);
+                record.avatar_url = data.children().children().children('a').children('.rounded-1').attr('src');
+                record.html_url = BASE_URL + login;
                 record.name = name.slice(1, name.length - 1);
                 record.repo = {};
-                record.repo.name = repo.split('')[2];
-                record.repo.full_name = repo.slice(1);
-                record.repo.html_url = BASE_URL + repo;
-                record.repo.slug = data.children().children('.repo-snipit').children('.repo-snipit-name').text().trim();
-                record.repo.description = data.children().children('.repo-snipit').children('.repo-snipit-description').text().trim();
+                record.repo.name = repo;
+                record.repo.full_name = login + '/' + repo;
+                record.repo.html_url = BASE_URL + record.repo.full_name
+                record.repo.slug = repo;
+                record.repo.description = data.children().children().children('.repo-snipit').children('.repo-snipit-description').text().trim();
 
                 records.push(record);
             })
