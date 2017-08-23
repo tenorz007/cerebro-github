@@ -61,7 +61,7 @@ const scrapeGitHubTrendingRepos = (path = 'trending', query = {since: 'today'}) 
                 record.full_name = name.slice(1);
                 record.html_url = BASE_URL + name;
                 record.description = data.children().find('p').text().trim();
-                record.language = data.children('.mt-2').find('span.mr-3').text().trim();
+                record.language = data.children('.mt-2').find('span.mr-3').children('span').text().trim();
                 record.language_color = color.length ? color.css('background-color') : '';
                 record.stargazers_count = data.children('.mt-2').find('a.mr-3').eq(0).text().trim();
                 record.stargazers_period = data.children('.mt-2').children('.float-right').text().trim();
